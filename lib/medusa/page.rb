@@ -36,7 +36,7 @@ module Medusa
     def initialize(url, params = {})
       @url = url
       @data = OpenStruct.new
-
+      @host = params[:host]
       @code = params[:code]
       @headers = params[:headers] || {}
       @headers['content-type'] ||= ['']
@@ -51,6 +51,17 @@ module Medusa
       @fetched = !params[:code].nil?
     end
 
+    def body
+      @body
+    end
+
+    def all_links
+      if doc
+        doc.search("//a[@href]")
+      else
+        []
+      end
+    end
     #
     # Array of distinct A tag HREFs from the page
     #
@@ -170,7 +181,7 @@ module Medusa
     # +false+ otherwise
     #
     def in_domain?(uri)
-      uri.host == @url.host
+      uri.host == @url.host or @host = uri.host
     end
 
     def marshal_dump

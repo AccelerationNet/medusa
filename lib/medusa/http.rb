@@ -149,6 +149,7 @@ module Medusa
         response, headers, response_time, response_code, redirect_to = get_response(loc, referer)
         p = Page.new(loc,
                      :body => response,
+                     :host => http_request_headers["Host"],
                      :headers => headers,
                      :code => Integer(response_code),
                      :referer => referer,
