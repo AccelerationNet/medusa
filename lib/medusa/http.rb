@@ -162,7 +162,8 @@ module Medusa
       end while (loc = redirect_to) && allowed?(redirect_to, url) && limit > 0
       #return pages
     rescue Exception => e
-      debug_request.call("ERR: #{e}") if debug_request
+      debug_request.call("ERR(get): #{e}") if debug_request
+      raise
     ensure
       # debug_request.call("get fin #{pages.size}") if debug_request
     end
@@ -195,7 +196,7 @@ module Medusa
           resource = e_redirect.io
           redirect_to = e_redirect.uri
         rescue OpenURI::HTTPError => e_http
-          debug_request.call("ERR: #{e_http}") if debug_request
+          debug_request.call("HTTPERR: #{e_http}") if debug_request
           resource = e_http.io
         end
         finish = Time.now()
