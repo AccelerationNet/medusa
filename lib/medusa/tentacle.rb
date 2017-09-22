@@ -1,4 +1,4 @@
-require 'medusa/http'
+ 'medusa/http'
 
 module Medusa
   class Tentacle
@@ -25,7 +25,7 @@ module Medusa
         pages = @core.http.fetch_pages(link, referer, depth)
 
         pages.each { |page|
-          @core.debug_request.call("Inserting page #{page.url.path}")
+          @core.debug_request.call("Inserting page #{page.url.path}") if @core.debug_request
           @page_queue.push page
         }
 
