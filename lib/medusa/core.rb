@@ -9,8 +9,7 @@ require 'medusa/storage'
 require 'medusa/storage/base'
 
 module Medusa
-
-  VERSION = '0.0.1';
+  VERSION = '0.1.0';
 
   #
   # Convenience method to start a crawl
@@ -83,6 +82,7 @@ module Medusa
       @skip_link_patterns = []
       @after_crawl_blocks = []
       @opts = opts
+
       @http = Medusa::HTTP.new(opts)
       if opts[:verbose] and !debug_request
         debug_request = Proc.new{ |*args| puts "#{args}" }
@@ -302,7 +302,7 @@ module Medusa
     # This only works when coming from a page and with the +depth_limit+ option set.
     # When neither is the case, will always return +false+.
     def too_deep?(from_page)
-      if from_page && @opts[:depth_limit]
+      if from_page && from_page.depth && @opts[:depth_limit]
         from_page.depth >= @opts[:depth_limit]
       else
         false
